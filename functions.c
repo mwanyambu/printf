@@ -34,7 +34,7 @@ int length = 0, i;
 char *str = va_arg(types, char *);
 UNUSED(buffer);
 UNUSED(flags);
-UNUSED(width);       
+UNUSED(width);
 UNUSED(precision);
 UNUSED(size);
 if (str == NULL)
@@ -46,7 +46,8 @@ str = "      ";
 while (str[length] != '\0')
 length++;
 if (precision >= 0 && precision < length)
-length = precision; if (width > length)
+length = precision;
+if (width > length)
 {
 if (flags & F_MINUS)
 {
