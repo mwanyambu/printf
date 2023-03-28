@@ -3,23 +3,21 @@
 void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - print function
- * @format: format
- * Return: printed characters
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
  */
-
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, p_char = 0;
+	int i, printed = 0, printed_chars = 0;
 	int flags, width, precision, size, buff_ind = 0;
-	va_list lst;
+	va_list list;
 	char buffer[BUFF_SIZE];
 
 	if (format == NULL)
-	{
 		return (-1);
-	}
-	va_start(lst, format);
+
+	va_start(list, format);
 
 	for (i = 0; format && format[i] != '\0'; i++)
 	{
@@ -27,43 +25,43 @@ int _printf(const char *format, ...)
 		{
 			buffer[buff_ind++] = format[i];
 			if (buff_ind == BUFF_SIZE)
-				print_buffer(buffer, &buff_ind); /* write(1, &format[i], 1); */
-			p_char++;
+				print_buffer(buffer, &buff_ind);
+			/* write(1, &format[i], 1);*/
+			printed_chars++;
 		}
 		else
 		{
 			print_buffer(buffer, &buff_ind);
 			flags = get_flags(format, &i);
-			width = get_width(format, &i, lst);
-			precision = get_precision(format, &i, lst);
+			width = get_width(format, &i, list);
+			precision = get_precision(format, &i, list);
 			size = get_size(format, &i);
 			++i;
-			printed = handle_print(format, &i, lst, buffer, flags,
-					width, precision, size);
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
 			if (printed == -1)
-			{
 				return (-1);
-			}
-			p_char += printed;
+			printed_chars += printed;
 		}
 	}
+
 	print_buffer(buffer, &buff_ind);
-	va_end(lst);
-	return (p_char);
+
+	va_end(list);
+
+	return (printed_chars);
 }
 
 /**
- * print_buffer - prints buffer contets
- * @buffer: char array
- * @buff_ind: index of next char
+ * print_buffer - Prints the contents of the buffer if it exist
+ * @buffer: Array of chars
+ * @buff_ind: Index at which to add next char, represents the length.
  */
 void print_buffer(char buffer[], int *buff_ind)
 {
 	if (*buff_ind > 0)
-	{
 		write(1, &buffer[0], *buff_ind);
-	}
+
 	*buff_ind = 0;
 }
-
 
