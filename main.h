@@ -3,7 +3,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-#include < unistd.h>
+#include <unistd.h>
 
 #define UNUSED(x)(void)(x)
 #define BUFF_SIZE 1024
@@ -43,7 +43,7 @@ int handle_print(const char *fmt, int *i, va_list list,
 /** the functions below print strings and chars **/
 int print_char(va_list types, char buffer[], int flags,
 		int width, int precision, int size);
-int print_string(va_list types, char buffer[], int flags
+int print_string(va_list types, char buffer[], int flags,
 		int width, int precision, int size);
 int print_percent(va_list types, char buffer[], int flags,
 		int width, int precision, int size);
@@ -62,8 +62,8 @@ int print_hexadecimal(va_list types, char buffer[], int flags,
 int print_hexa_upper(va_list types, char buffer[], int flags,
 		int width, int precision, int size);
 
-int print_hexa(va_list types, char buffer[], int flags,
-		int width, int precision, int size);
+int print_hexa(va_list types, char map_to[], char buffer[], int flags,
+		char flag_ch, int width, int precision, int size);
 
 /*** the functions below print non printable characters ***/
 int print_non_printable(va_list types, char buffer[], int flags,
@@ -77,7 +77,7 @@ int print_pointer(va_list types, char buffer[], int flags,
 int get_flags(const char *format, int *i);
 int get_width(const char *format, int *i, va_list list);
 int get_precision(const char *format, int *i, va_list list);
-int get_size(const char *format, int i);
+int get_size(const char *format, int *i);
 
 /** the below function prints string in reverse **/
 int print_reverse(va_list types, char buffer[], int flags,

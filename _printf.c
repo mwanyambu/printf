@@ -10,7 +10,7 @@ void print_buffer(char buffer[], int *buff_ind);
 
 int _printf(const char *format, ...)
 {
-	int x, y = 0, p_char = 0;
+	int i, printed = 0, p_char = 0;
 	int flags, width, precision, size, buff_ind = 0;
 	va_list lst;
 	char buffer[BUFF_SIZE];
@@ -20,29 +20,31 @@ int _printf(const char *format, ...)
 		return (-1);
 	}
 	va_start(lst, format);
-	for (x = 0; format && format[x] != '\0'; x++)
+
+	for (i = 0; format && format[i] != '\0'; i++)
 	{
-		if (format[x] != '%')
+		if (format[i] != '%')
 		{
-			buffer[buff_ind++] == format[x];
+			buffer[buff_ind++] = format[i];
 			if (buff_ind == BUFF_SIZE)
-			{
-				print_buffer(buffer, &buff_ind); /* write(1, &format[x], 1); */
-				p_char++;
-			}
+				print_buffer(buffer, &buff_ind); /* write(1, &format[i], 1); */
+			p_char++;
 		}
 		else
 		{
-			print_buffer(buffer, buff_ind);
-			flags = get_flags(format, &x);
-			width = get_width(format, &x, lst);
-			precision = get_precision(format, &x, lst, buffer, flags,
+			print_buffer(buffer, &buff_ind);
+			flags = get_flags(format, &i);
+			width = get_width(format, &i, lst);
+			precision = get_precision(format, &i, lst);
+			size = get_size(format, &i);
+			++i;
+			printed = handle_print(format, &i, lst, buffer, flags,
 					width, precision, size);
-			if (y == -1)
+			if (printed == -1)
 			{
 				return (-1);
 			}
-			p_char += y;
+			p_char += printed;
 		}
 	}
 	print_buffer(buffer, &buff_ind);
